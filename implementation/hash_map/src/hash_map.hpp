@@ -1,7 +1,8 @@
 #pragma once
 
-template <typename T>
-struct SomeType {
-	SomeType(const T& a): _a(a) {}
-	T _a;
+template <
+    typename Key,
+    typename T,
+    typename Hash>
+class   HashMap {
 };
