@@ -21,3 +21,8 @@ jobs:
 
       - name: run cppcheck
         run: cppcheck ./implementation/hash_map/src/hash_map.hpp
+
+      - name: run all the tests
+        run: |
+          cd implementation
+          bazel test --test_output=all  --cxxopt=-std=c++14 //...:all
