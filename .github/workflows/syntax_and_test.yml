@@ -1,6 +1,7 @@
 name: syntax-test
 
 on: push
+jobs:
   syntax-check:
     name: check using if google style is good
     runs-on: ubuntu-latest
