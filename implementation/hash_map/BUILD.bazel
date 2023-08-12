@@ -1,11 +1,13 @@
 cc_library (
 	name = "hash_map",
 	srcs = ["src/hash_map.hpp"],
+  copts = ["-std=c++20"]
 )
 
 cc_test(
   name = "hash_map_test",
   srcs = ["tests/hash_map_test.cpp"],
+  copts = ["-std=c++20"],
   deps = [
 	  ":hash_map",
 	"@com_google_googletest//:gtest_main"
