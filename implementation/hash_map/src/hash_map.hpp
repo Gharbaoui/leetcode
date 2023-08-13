@@ -11,9 +11,9 @@
 #define TESTING
 #endif
 
-template <typename Func, typename Arg>
-concept CanBeHashed = requires(Func f, Arg key) {
-    {f(key)} -> std::convertible_to<std::uint16_t>;
+template <typename Func, typename Key, std::uint16_t size>
+concept CanBeHashed = requires(Func f, Key key) {
+    {f(key, size)} -> std::convertible_to<std::uint16_t>;
 }; // NOLINT
 
 template <
@@ -21,7 +21,7 @@ template <
     typename T,
     typename Hash,
     std::uint16_t ArrSize>
-requires CanBeHashed<Hash, Key>
+requires CanBeHashed<Hash, Key, ArrSize>
 class   HashMap {
  public:
     using ObjectType = std::pair<Key, T>;
@@ -29,7 +29,7 @@ class   HashMap {
     explicit HashMap(Hash& hf): hashFunction(hf) {} // NOLINT
 
     bool    insert(const ObjectType obj) {
-         const std::uint16_t index = hashFunction(obj.first);
+         const std::uint16_t index = hashFunction(obj.first, ArrSize);
          auto& listOfObjs = hashMapArr[index];
         if (objectInList(index, obj.first)) {
             // object already stored
@@ -40,7 +40,7 @@ class   HashMap {
     }
 
     std::pair<bool, std::optional<T>>    search(const Key& key) const {
-         const std::uint16_t index = hashFunction(key);
+         const std::uint16_t index = hashFunction(key, ArrSize);
          const auto& listOfObjs = hashMapArr[index];
          const auto& it = std::find_if(listOfObjs.begin(), listOfObjs.end(),
                  [&](const ObjectType& obj) {return obj.first == key;});
@@ -56,7 +56,7 @@ class   HashMap {
     }
 
     bool    erase(const Key& key) {
-         const std::uint16_t index = hashFunction(key);
+         const std::uint16_t index = hashFunction(key, ArrSize);
          auto& listOfObjs = hashMapArr[index];
          const auto& it = std::find_if(listOfObjs.begin(), listOfObjs.end(),
                  [&](const ObjectType& obj) {return obj.first == key;});

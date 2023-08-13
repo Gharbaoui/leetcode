@@ -5,7 +5,7 @@
 #include <string>
 
 TEST(HashMapInsert, SizeChange) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -20,7 +20,7 @@ TEST(HashMapInsert, SizeChange) {
 }
 
 TEST(HashMapInsert, ValueCheck) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -33,7 +33,7 @@ TEST(HashMapInsert, ValueCheck) {
 }
 
 TEST(HashMapInsert,ValueAlreadyStored) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -53,7 +53,7 @@ TEST(HashMapInsert,ValueAlreadyStored) {
 }
 
 TEST(HashMapSearch, EmptyHashMap) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -65,7 +65,7 @@ TEST(HashMapSearch, EmptyHashMap) {
 }
 
 TEST(HashMapSearch, NonEmptyHashMap) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -86,7 +86,7 @@ TEST(HashMapSearch, NonEmptyHashMap) {
 }
 
 TEST(HashMapErase, ValueDoesNotExist) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
@@ -98,7 +98,7 @@ TEST(HashMapErase, ValueDoesNotExist) {
 }
 
 TEST(HashMapErase, ValueDoesExist) {
-    const auto HashFunction = [](int) {
+    const auto HashFunction = [](int, int) {
         return 2;
     };
 
