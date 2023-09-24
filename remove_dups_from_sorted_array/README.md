@@ -90,9 +90,13 @@ why not `current pointer` it will be clear later do not worry
 (current pointer), and we move on `previous pointer` to be the same as the `next pointer`
 and repeat
 #### Next Iteration
-![](./pics/9.png)move current
-![](./pics/10.png)copy value fro `next unique` to `current pointer`
-![](./pics/11.png)move `previous pointer`
-![](./pics/10_1.png)and we repeat until there's no `next unique`
+![](./pics/9.png)
+move current
+![](./pics/10.png)
+copy value fro `next unique` to `current pointer`
+![](./pics/11.png)
+move `previous pointer`
+![](./pics/10_1.png)
+and we repeat until there's no `next unique`
 
 
