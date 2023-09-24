@@ -82,4 +82,17 @@ and here's github link for all details
 ![](./pics/6.png)but as you can see it's pretty bad
 
 ### Is This The Best We Can Do?
->well I hope not
+>well the idea is that we start with two pointers like this
+![](./pics/7.png)and now we will search for the next element but how? well since the array is sorted
+the next element is the element that is greater than the element at `previous pointer`
+why not `current pointer` it will be clear later do not worry
+![](./pics/8.png)well now we move `current pointer` to the next, we copy the value at `next unique` to it
+(current pointer), and we move on `previous pointer` to be the same as the `next pointer`
+and repeat
+#### Next Iteration
+![](./pics/9.png)move current
+![](./pics/10.png)copy value fro `next unique` to `current pointer`
+![](./pics/11.png)move `previous pointer`
+![](./pics/10_1.png)and we repeat until there's no `next unique`
+
+
