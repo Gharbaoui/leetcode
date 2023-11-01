@@ -5,7 +5,7 @@
 - [majority element](./majority-element_optimized/)
 - [majority element optimized](./majority-element_optimized/)
 - [remove duplicates from sorted array ](./remove_dups_from_sorted_array/)
-- [remove duplicates from sorted array ](./vlaid_palindrome/)
+- [valid palindrome ](./vlaid_palindrome/)
 
 ### Internals
 - [implementation](./implementation/)
