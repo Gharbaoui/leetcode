@@ -1,0 +1,16 @@
+/Applications/krita.app/Contents/MacOS/ffmpeg -hide_banner -y -y -r 24 -i /Users/mohamed/workspace/gharbaoui.github.io/mohamed/static/img/collections/algorithms-data-structurs/two_pointers_valid_palindrome/frame%04d.png -f apng -pred none -plays 0 /Users/mohamed/workspace/gharbaoui.github.io/mohamed/static/img/collections/algorithms-data-structurs/two_pointers_valid_palindrome/anime_2.apng
+=====================================================
+Input #0, image2, from '/Users/mohamed/workspace/gharbaoui.github.io/mohamed/static/img/collections/algorithms-data-structurs/two_pointers_valid_palindrome/frame%04d.png':
+  Duration: 00:00:00.64, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: png, rgba(pc), 1920x1080 [SAR 3937:3937 DAR 16:9], 25 fps, 25 tbr, 25 tbn, 25 tbc
+Stream mapping:
+  Stream #0:0 -> #0:0 (png (native) -> apng (native))
+Press [q] to stop, [?] for help
+Output #0, apng, to '/Users/mohamed/workspace/gharbaoui.github.io/mohamed/static/img/collections/algorithms-data-structurs/two_pointers_valid_palindrome/anime_2.apng':
+  Metadata:
+    encoder         : Lavf58.76.100
+  Stream #0:0: Video: apng, rgba(pc, progressive), 1920x1080 [SAR 3937:3937 DAR 16:9], q=2-31, 200 kb/s, 24 fps, 24 tbn
+    Metadata:
+      encoder         : Lavc58.134.100 apng
+frame=    1 fps=0.0 q=0.0 size=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    frame=    6 fps=0.0 q=-0.0 size=      50kB time=00:00:00.20 bitrate=1972.8kbits/s speed=0.287x    frame=   10 fps=7.5 q=-0.0 size=      83kB time=00:00:00.37 bitrate=1813.6kbits/s speed=0.28x    frame=   14 fps=6.9 q=-0.0 size=     115kB time=00:00:00.54 bitrate=1740.2kbits/s speed=0.267x    frame=   16 fps=6.6 q=-0.0 Lsize=     165kB time=00:00:00.66 bitrate=2029.8kbits/s speed=0.275x    
+video:165kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.050867%
