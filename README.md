@@ -5,7 +5,8 @@
 - [majority element](./majority-element_optimized/)
 - [majority element optimized](./majority-element_optimized/)
 - [remove duplicates from sorted array ](./remove_dups_from_sorted_array/)
-- [valid palindrome ](./valid_palindrome/)
+- [valid palindrome](./valid_palindrome/)
+- [container with most water](./container_with_most_water/)
 
 ### Internals
 - [implementation](./implementation/)
