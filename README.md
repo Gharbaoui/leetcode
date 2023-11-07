@@ -7,6 +7,7 @@
 - [remove duplicates from sorted array ](./remove_dups_from_sorted_array/)
 - [valid palindrome](./valid_palindrome/)
 - [container with most water](./container_with_most_water/)
+- [trapping rain water](./trapping_rain_water/)
 
 ### Internals
 - [implementation](./implementation/)
