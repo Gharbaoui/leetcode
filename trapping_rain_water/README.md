@@ -64,4 +64,162 @@ well did we consider all situations well no look at these
 The Big question when should you stop?
 
 stop when the right side has heigher height? what if there's none
-well stop at the heightest box? maybe
+well stop at the heightest box? yes
+
+okay let's say easy cases then add all the cases
+![](./pics/17.png)
+this is the case where there's height that equal to the start.
+![](./pics/18.png)
+so first as we said before we start at left then find equal or hiegher height on the right and calculate the **Area** but
+how can we calculate the area well width=(rightIndex - leftIndex - 1) * height = min(leftHeight, rightHeight) this will gives us the blue area, but the blue area is wrong, why
+there's the other boxes of heights 2, 3, 5 submerged there
+so all we have to do is remove them from the Area that we calculated above and boom we got the area of that part
+
+```cpp
+int trap(std::vector<int>& height) {
+    int leftIndex = 0, rightIndex;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+
+    }
+
+}
+```
+
+you may wonder why ```while(leftIndex < size - 2)``` well because water can not be trapped unless there's three heights
+let's say that index in this case reached the value 7, it does not need to because there's no way can be trapped by 1 or 2 heights.
+
+```cpp
+int trap(std::vector<int>& height) {
+    int leftIndex = 0, rightIndex;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+
+        } else {
+            ++leftIndex;
+        }
+    }
+
+}
+```
+
+why ```if (height[leftIndex] > height[leftIndex + 1])``` well if there's next box but that next box is heigher
+there's no need to continue from there so we move to it
+![](./pics/19.png)
+
+okay let's say that the condition is right what now
+![](./pics/20.png)
+
+```cpp
+int trap(std::vector<int>& height) {
+    int leftIndex = 0, rightIndex;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            rightIndex = leftIndex + 2;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                ++rightIndex;
+            }
+
+            const int width = (rightIndex - leftIndex - 1);
+            const int h = std::min(
+                height[leftIndex],
+                height[rightIndex]
+            );
+            const int area = width * h;
+
+        } else {
+            ++leftIndex;
+        }
+    }
+
+}
+```
+
+well now we search for the next height that is either hiegher or equal to the left box so it should stop at box at
+index 4 with height 8
+![](./pics/21.png)
+
+well we now we have the area, all we need to do is to remove
+the added area (submerged black boxes) we could add variable
+that store the sum of heights while we are searching for box
+on the right
+
+```cpp
+int trap(std::vector<int>& height) {
+    int leftIndex = 0, rightIndex;
+    int subMergedArea;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            subMergedArea = height[leftIndex + 1];
+            rightIndex = leftIndex + 2;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                subMergedArea += height[rightIndex];
+                ++rightIndex;
+            }
+
+            const int width = (rightIndex - leftIndex - 1);
+            const int h = std::min(
+                height[leftIndex],
+                height[rightIndex]
+            );
+            const int area = (width * h) - subMergedArea;
+
+        } else {
+            ++leftIndex;
+        }
+    }
+
+}
+```
+
+why ```subMergedArea = height[leftIndex + 1]``` at the start well because the inner loop will start from leftIndex + 2 and
+it will be skiped that's why we added it first.
+
+and what now ? well we add this area variable to some variable that holdes the entire area of all heights and we
+repeat by moving the leftIndex to the rightIndex
+
+
+```cpp
+int trap(std::vector<int>& height) {
+    int overAllArea = 0;
+    int leftIndex, rightIndex;
+    int subMergedArea;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            subMergedArea = height[leftIndex + 1];
+            rightIndex = leftIndex + 2;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                subMergedArea += height[rightIndex];
+                ++rightIndex;
+            }
+
+            const int width = (rightIndex - leftIndex - 1);
+            const int h = std::min(
+                height[leftIndex],
+                height[rightIndex]
+            );
+            const int area = (width * h) - subMergedArea;
+            overAllArea += area;
+            leftIndex = rightIndex;
+        } else {
+            ++leftIndex;
+        }
+    }
+    return overAllArea;
+}
+```
+
+okay seems fine let's see the other cases, 
