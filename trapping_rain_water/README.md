@@ -222,4 +222,178 @@ int trap(std::vector<int>& height) {
 }
 ```
 
-okay seems fine let's see the other cases, 
+okay seems fine let's see the other cases, for example that
+there's no heigher box to the right
+
+![](./pics/22.png)
+![](./pics/23.png)
+
+let's say for example the first case, well this is also easy
+instead of looking into box with height bigger than the box
+on the left we will also look for the heighest box in this case
+box at index 3 of height 5, and apply the same tactic as before to find area.
+
+
+
+```cpp
+int trap(std::vector<int>& height) {
+    int leftIndex = 0, rightIndex;
+    int subMergedArea;
+    const int size = height.size();
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            subMergedArea = height[leftIndex + 1];
+            rightIndex = leftIndex + 2;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                subMergedArea += height[rightIndex];
+                ++rightIndex;
+            }
+
+            const int width = (rightIndex - leftIndex - 1);
+            const int h = std::min(
+                height[leftIndex],
+                height[rightIndex]
+            );
+            const int area = (width * h) - subMergedArea;
+
+        } else {
+            ++leftIndex;
+        }
+    }
+
+}
+```
+
+why ```subMergedArea = height[leftIndex + 1]``` at the start well because the inner loop will start from leftIndex + 2 and
+it will be skiped that's why we added it first.
+
+and what now ? well we add this area variable to some variable that holdes the entire area of all heights and we
+repeat by moving the leftIndex to the rightIndex
+
+
+```cpp
+int trap(std::vector<int>& height) {
+    int overAllArea = 0;
+    int leftIndex = 0, rightIndex;
+    int subMergedArea;
+    const int size = height.size();
+    int heighestBoxIndex;
+    int heighestBox;
+    int areaForHeighestBox;
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            heighestBoxIndex = 0;
+            heighestBox = -1;
+            subMergedArea = height[leftIndex + 1];
+            rightIndex = leftIndex + 2;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                if (height[rightIndex] > heighestBox) {
+                    heighestBox = height[rightIndex];
+                    heighestBoxIndex = rightIndex;
+                    areaForHeighestBox = subMergedArea;
+                }
+                subMergedArea += height[rightIndex];
+                ++rightIndex;
+            }
+
+            if (rightIndex < size) {
+                const int width = (rightIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    height[rightIndex]
+                );
+                const int area = (width * h) - subMergedArea;
+                overAllArea += area;
+                leftIndex = rightIndex;
+            } else {
+               const int width = (heighestBoxIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    heighestBox
+                );
+                const int area = (width * h) - areaForHeighestBox;
+                overAllArea += area;
+                leftIndex = heighestBoxIndex;
+            }
+        } else {
+            ++leftIndex;
+        }
+    }
+    return overAllArea;
+}
+```
+
+there's some minor problems with this code, remember this case
+![](./pics/23.png)
+well we intended to find the heightest box and since we are doing rightIndex = leftIndex + 2
+we are going to skip it and we will find last box instead which is wrong so we should make
+rightIndex = leftIndex + 1, and if we do that subMergedArea should be equal to  zero at the
+start because it will not be skiped inside the loop
+
+```cpp
+int trap(std::vector<int>& height) {
+    int overAllArea = 0;
+    int leftIndex = 0, rightIndex;
+    int subMergedArea;
+    const int size = height.size();
+    int heighestBoxIndex;
+    int heighestBox;
+    int areaForHeighestBox;
+    while (leftIndex < size - 2) {
+        if (height[leftIndex] > height[leftIndex + 1]) {
+            heighestBoxIndex = 0;
+            heighestBox = -1;
+            subMergedArea = 0;
+            rightIndex = leftIndex + 1;
+            while (
+                rightIndex < size &&
+                height[leftIndex] > height[rightIndex]
+            ) {
+                if (height[rightIndex] > heighestBox) {
+                    heighestBox = height[rightIndex];
+                    heighestBoxIndex = rightIndex;
+                    areaForHeighestBox = subMergedArea;
+                }
+                subMergedArea += height[rightIndex];
+                ++rightIndex;
+            }
+
+            if (rightIndex < size) {
+                const int width = (rightIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    height[rightIndex]
+                );
+                const int area = (width * h) - subMergedArea;
+                overAllArea += area;
+                leftIndex = rightIndex;
+            } else {
+               const int width = (heighestBoxIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    heighestBox
+                );
+                const int area = (width * h) - areaForHeighestBox;
+                if (area > 0)
+                    overAllArea += area;
+                leftIndex = heighestBoxIndex;
+            }
+        } else {
+            ++leftIndex;
+        }
+    }
+    return overAllArea;
+}
+```
+
+and what about ```if (area > 0)``` why? well let's say that (heighestBoxIndex - leftIndex - 1) = 0
+well that means there's no way we could trap water there, but areaForHeighestBox will be holding the
+value of box at heighestBoxIndex which would result in area < 0, which is wrong so we just ignor it.
+
+### Can We do Better?

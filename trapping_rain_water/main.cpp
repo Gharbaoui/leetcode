@@ -4,32 +4,53 @@
 
 class Solution {
 public:
-   
 int trap(std::vector<int>& height) {
     int overAllArea = 0;
     int leftIndex = 0, rightIndex;
     int subMergedArea;
     const int size = height.size();
+    int heighestBoxIndex;
+    int heighestBox;
+    int areaForHeighestBox;
     while (leftIndex < size - 2) {
         if (height[leftIndex] > height[leftIndex + 1]) {
-            subMergedArea = height[leftIndex + 1];
-            rightIndex = leftIndex + 2;
+            heighestBoxIndex = 0;
+            heighestBox = -1;
+            subMergedArea = 0;
+            rightIndex = leftIndex + 1;
             while (
                 rightIndex < size &&
                 height[leftIndex] > height[rightIndex]
             ) {
+                if (height[rightIndex] > heighestBox) {
+                    heighestBox = height[rightIndex];
+                    heighestBoxIndex = rightIndex;
+                    areaForHeighestBox = subMergedArea;
+                }
                 subMergedArea += height[rightIndex];
                 ++rightIndex;
             }
 
-            const int width = (rightIndex - leftIndex - 1);
-            const int h = std::min(
-                height[leftIndex],
-                height[rightIndex]
-            );
-            const int area = (width * h) - subMergedArea;
-            overAllArea += area;
-            leftIndex = rightIndex;
+            if (rightIndex < size) {
+                const int width = (rightIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    height[rightIndex]
+                );
+                const int area = (width * h) - subMergedArea;
+                overAllArea += area;
+                leftIndex = rightIndex;
+            } else {
+               const int width = (heighestBoxIndex - leftIndex - 1);
+                const int h = std::min(
+                    height[leftIndex],
+                    heighestBox
+                );
+                const int area = (width * h) - areaForHeighestBox;
+                if (area > 0)
+                    overAllArea += area;
+                leftIndex = heighestBoxIndex;
+            }
         } else {
             ++leftIndex;
         }
@@ -38,57 +59,14 @@ int trap(std::vector<int>& height) {
 }
 };
 
-int main() {
-    std::vector<int> heights {8, 2, 3, 5, 8, 2, 3, 10};
+
+int main()
+{
+    std::vector<int> heights{0,1,0,2,1,0,1,3,2,1,2,1};
 
     Solution s;
-    std::cout << s.trap(heights) << "\n";
+
+    std::cout << s.trap(heights) << std::endl;
+
+
 }
-
-
-
-//  int trap(std::vector<int>& height) {
-//         std::vector<int> inBetweenHeights;
-//         int leftHeightIndex = 0;
-//         int currentArea = 0;
-//         int size {height.size()};
-//         while (leftHeightIndex < size - 2) {
-//             const int nextHeight = height[leftHeightIndex + 1];
-//             const int leftHeight = height[leftHeightIndex];
-
-//             if (leftHeight > nextHeight) {
-//                 int heighestIndex {leftHeightIndex + 1};
-//                 int maxHeight {nextHeight};
-//                 int currentIndex = leftHeightIndex + 2;
-//                 int insideArea = height[leftHeightIndex + 1];
-//                 int insideAreaInCaseIfTheresNoHeigher;
-//                 while (currentIndex < height.size() && height[leftHeightIndex] > height[currentIndex])
-//                 {
-//                     insideArea += height[currentIndex];
-//                     if (height[currentIndex] >= maxHeight) {
-//                         maxHeight = height[currentIndex];
-//                         heighestIndex = currentIndex;
-//                         insideAreaInCaseIfTheresNoHeigher = insideArea;
-//                     }
-//                     ++currentIndex;
-//                 }
-//                 if (currentIndex < height.size()) {
-//                     const int w = currentIndex - leftHeightIndex - 1;
-//                     const int h = height[leftHeightIndex];
-//                     currentArea += (h * w) - insideArea;
-//                     leftHeightIndex = currentIndex;
-//                 } else if (heighestIndex != leftHeightIndex + 1){
-//                     const int w = heighestIndex - leftHeightIndex - 1;
-//                     const int h = maxHeight;
-//                     currentArea += (w * h) - insideAreaInCaseIfTheresNoHeigher + height[heighestIndex];
-//                     leftHeightIndex = heighestIndex;
-//                 } else {
-//                     return ;
-//                 }
-                
-//             } else {
-//                 ++leftHeightIndex;
-//             }
-//         }
-//         return currentArea;
-//     }
