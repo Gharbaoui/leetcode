@@ -397,3 +397,96 @@ well that means there's no way we could trap water there, but areaForHeighestBox
 value of box at heighestBoxIndex which would result in area < 0, which is wrong so we just ignor it.
 
 ### Can We do Better?
+the main question is how much can we store in one unit?
+![](./pics/24.png)
+and for this one also no water can be trapped but why well because there's no left
+boundary that can hold water that's way
+![](./pics/25.png)
+so it seems that if there's left and right boundary it should hold water
+![](./pics/26.png)
+because there's water boundary on the right of height? what height that's another question
+well we could use the heightest as boundary in this case height of 3
+so now we have two heights the one on the left with height of 1.5 and on the right
+with height of 3, so in this case this block could hold 1.5 units of water
+because we are going the use the minimum between the 2 (left, right) and subtract
+the current height in this case zero
+![](./pics/27.png)
+and we repeat the process using the equation min(leftHeight, rightHeight) - currentHeight
+![](./pics/28.png)
+
+but in this case the result would be negative min(1.5, 3) - 2 = -.5 so no water can be trapped
+also so if negative we make it zero,
+
+you can notice pattern now at each index we are asking the question what is the max height
+on the left and on the right we could actually prepare two arrays that hold these values
+
+```cpp
+void    fillMaxLeftArr(const std::vector<int> &heights, std::vector<int> &out)
+{
+    int currentMax = 0;
+    for (int i = 0; i < heights.size(); ++i)
+    {
+        out[i] = currentMax;
+        if (heights[i] > currentMax)
+            currentMax = heights[i];
+    }
+}
+
+void    fillMaxRight(const std::vector<int> &heights, std::vector<int> &out)
+{
+    int currentMax = 0;
+    for (int i = heights.size() - 1; i >= 0; --i)
+    {
+        out[i] = currentMax;
+        if (heights[i] > currentMax)
+            currentMax = heights[i];
+    }
+}
+```
+
+so the final should look like this
+
+```cpp
+
+class Solution {
+public:
+    int trap(std::vector<int>& heights) {
+        std::vector<int> left(heights.size());
+        std::vector<int> right(heights.size());
+
+        fillMaxLeftArr(heights, left);
+        fillMaxRight(heights, right);
+
+        int currentArea = 0;
+        for (int i = 0; i < heights.size(); ++i)
+        {
+            const int minHeight = std::min(left[i], right[i]);
+            const int area = minHeight - heights[i];
+            currentArea += (area > 0) ? area : 0;
+        }
+        return currentArea;
+    }
+
+void    fillMaxLeftArr(const std::vector<int> &heights, std::vector<int> &out)
+{
+    int currentMax = 0;
+    for (int i = 0; i < heights.size(); ++i)
+    {
+        out[i] = currentMax;
+        if (heights[i] > currentMax)
+            currentMax = heights[i];
+    }
+}
+
+void    fillMaxRight(const std::vector<int> &heights, std::vector<int> &out)
+{
+    int currentMax = 0;
+    for (int i = heights.size() - 1; i >= 0; --i)
+    {
+        out[i] = currentMax;
+        if (heights[i] > currentMax)
+            currentMax = heights[i];
+    }
+}
+};
+```
